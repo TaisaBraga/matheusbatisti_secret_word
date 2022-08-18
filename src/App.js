@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
 import Game from "./components/Game";
@@ -10,6 +11,8 @@ const stages = [
   { id: 2, name: "game" },
   { id: 3, name: "end" },
 ];
+
+const guessQty = 3
 
 function App() {
   const [gameStage, setGameStage] = useState(stages[0].name);
@@ -48,10 +51,42 @@ function App() {
   };
 
   const verifyLetter = (letter) => {
-    console.log(letter)
+    const normalizedLetter = letter.toLowerCase();
+
+    if (
+      guessedLetters.includes(normalizedLetter) ||
+      wrongLetters.includes(normalizedLetter)
+    ) {
+      return;
+    }
+    if (letters.includes(normalizedLetter)) {
+      setGuessedLetters((actualGuessedLetters) => [
+        ...actualGuessedLetters,
+        normalizedLetter,
+      ]);
+    } else {
+      setWrongLetters((actualWrongLetters) => [
+        ...actualWrongLetters,
+        normalizedLetter,
+      ]);
+
+      setGuesses((actualGuesses) => actualGuesses - 1)
+    }
   };
+  const clearLetterStates = () => {
+    setGuessedLetters([]);
+    setWrongLetters([]);
+  }
+  useEffect(() => {
+    if (guesses <= 0) {
+      clearLetterStates();
+      setGameStage(stages[2].name);
+    }
+  }, [guesses]);
 
   const restart = () => {
+    setScore(0)
+    setGuesses(guessQty)
     setGameStage(stages[0].name);
   };
 
