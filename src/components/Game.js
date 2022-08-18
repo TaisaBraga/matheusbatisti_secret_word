@@ -1,8 +1,11 @@
 import React from 'react'
 
-const Game = () => {
+const Game = ({verifyWord}) => {
   return (
-    <div>Game</div>
+    <div>
+        <h1>Game</h1>
+        <button onClick={verifyWord}>Verificar Palavra!</button>
+    </div>
   )
 }
 

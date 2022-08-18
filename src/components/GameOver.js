@@ -1,8 +1,11 @@
 import React from 'react'
 
-const GameOver = () => {
+const GameOver = ({restart}) => {
   return (
-    <div>GameOver</div>
+    <div>
+        <h1>GameOver</h1>
+        <button onClick={restart}>Começar novamente!</button>
+    </div>
   )
 }
 
